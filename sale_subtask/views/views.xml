@@ -63,9 +63,9 @@
                         <group> 
                             <field name="sale_id"/>
                         </group>
-                        <group col="4" colspan="4">
+                        <!--group col="4" colspan="4">
                             <field name="subtask_ids"/>
-                        </group>
+                        </group-->
                     </sheet>
                     <footer>
                         <button name="added" type="object" string="Agregar tareas" class="oe_highlight"/>
