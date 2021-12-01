@@ -75,7 +75,7 @@ class SaleOrderSubTask(models.Model):
             product_type = line.product_id.type
             if product_type == 'service':
                 line_ids = self.env["sale.order.line.subtask"].sudo().search([("line_id","=",line.id)])
-                parent_task = self.env["project.task"].sudo().search([("sale_line_id","=",self.id)])
+                parent_task = self.env["project.task"].sudo().search([("sale_line_id","=",line.id)])
                 if line_ids and parent_task:
                     for subtask in line_ids:
                         self.env["project.task"].create({"name":subtask.name,
@@ -84,4 +84,6 @@ class SaleOrderSubTask(models.Model):
                                                         "stage_id":'project.project_stage_0',
                                                         "kanban_state":	'normal',
                                                         "company_id":self.company_id.id})
+
+                        self.line_id.write({'subtask_ids': [(6, 0, subtask)]})
                         subtask.write({'state': '1'})
