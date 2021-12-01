@@ -81,7 +81,7 @@ class SaleOrderSubTask(models.Model):
                         self.env["project.task"].create({"name":subtask.name,
                                                         "parent_id":parent_task.id,
                                                         "project_id":parent_task.project_id.id,
-                                                        "stage_id":'project.project_stage_0',
+                                                        "stage_id":'1',
                                                         "kanban_state":	'normal',
                                                         "company_id":self.company_id.id})
 
