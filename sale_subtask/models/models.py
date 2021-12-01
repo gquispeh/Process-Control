@@ -52,3 +52,34 @@ class SaleOrderLineTaskWizard(models.TransientModel):
         for line in self.subtask_ids:
             line.write({'line_id': self.line_id.id})
         self.line_id.write({'subtask_ids': [(6, 0, subtask)]})
+
+
+class SaleOrderSubTask(models.Model):
+    _inherit = "sale.order"
+    
+    def _action_confirm(self):
+        """ On SO confirmation, some lines should generate a task or a project. """
+        result = super()._action_confirm()
+        if len(self.company_id) == 1:
+            # All orders are in the same company
+            self.order_line.sudo().with_company(self.company_id)._timesheet_service_generation()
+        else:
+            # Orders from different companies are confirmed together
+            for order in self:
+                order.order_line.sudo().with_company(order.company_id)._timesheet_service_generation()
+        self.subtask_task()
+        return result
+
+    def subtask_task(self):
+        for line in self.order_line:
+            product_type = self.line.product_id.type
+            if product_type == 'service':
+                line_ids = self.env["sale.order.line.subtask"].sudo().search([("line_id","=",line.id)])
+                parent_task = self.env["project.task"].sudo().search([("sale_line_id","=",self.id),("parent_id","=",False)])
+                if line_ids:
+                    for subtask in line_ids:
+                        self.env["project.task"].create({"name":subtask.name,
+                                                        "parent_id":parent_task,
+                                                        "kanban_state":	'normal',
+                                                        "company_id":self.company_id.id})
+                        subtask.write({'state': '1'})
