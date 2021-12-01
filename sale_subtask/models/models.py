@@ -78,19 +78,13 @@ class SaleOrderSubTask(models.Model):
                 parent_task = self.env["project.task"].sudo().search([("sale_line_id","=",line.id)])
                 if line_ids:
                     for subtask in line_ids:
-                        #self.env["project.task"].create({"name":subtask.name,
-                        #                                "parent_id":parent_task.id,
-                        #                                "project_id":parent_task.project_id.id,
-                        #                                "stage_id":'1',
-                        #                                "kanban_state":	'normal',
-                        #                                "company_id":self.company_id.id})
-                        values = {
-                                "name":subtask.name,
+                        values = {"name":subtask.name,
+                                "sale_line_id":line.id,
+                                "sale_order_id":self.id,
+                                "partner_id":self.partner_id.id,
                                 "parent_id":parent_task.id,
                                 "project_id":parent_task.project_id.id,
-                                "stage_id":'1',
                                 "kanban_state":'normal',
-                                "company_id":self.company_id.id,
-                                }
+                                "company_id":self.company_id.id}
                         parent_task.write({'child_ids': [(0, 0, values)]})
                         subtask.write({'state': '1'})
