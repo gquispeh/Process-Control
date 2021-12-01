@@ -30,4 +30,4 @@ class SaleOrderLineTaskWizard(models.TransientModel):
     _name = "sale.order.line.wizard"
     
     sale_id = fields.Many2one('sale.order.line', string='Linea de Venta')
-    subtask_ids = fields.One2many('sale.order.line.subtask.tree', 'wizard_id', string='Sub Tareas')
+    subtask_ids = fields.One2many('sale.order.line.wizard.tree', 'wizard_id', string='Sub Tareas')
