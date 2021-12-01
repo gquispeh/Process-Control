@@ -72,7 +72,7 @@ class SaleOrderSubTask(models.Model):
 
     def subtask_task(self):
         for line in self.order_line:
-            product_type = self.line.product_id.type
+            product_type = line.product_id.type
             if product_type == 'service':
                 line_ids = self.env["sale.order.line.subtask"].sudo().search([("line_id","=",line.id)])
                 parent_task = self.env["project.task"].sudo().search([("sale_line_id","=",self.id),("parent_id","=",False)])
