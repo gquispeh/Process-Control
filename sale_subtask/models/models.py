@@ -93,7 +93,4 @@ class SaleOrderSubTask(models.Model):
                                     "company_id":self.company_id.id}
 
                         parent_task.write({'child_ids': [(0, 0, values)]})
-
-
-                        self.line_id.write({'subtask_ids': [(6, 0, subtask)]})
                         subtask.write({'state': '1'})
