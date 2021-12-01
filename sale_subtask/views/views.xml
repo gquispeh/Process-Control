@@ -47,13 +47,12 @@
                             <field name="price_tax" invisible="1"/>
                             <field name="company_id" invisible="1"/>
                             <button name="button_task" type="object" string="Sub Task"  icon="fa-file"  class="bg-primary"/>
-                            <!--button name="%(action_sale_order_line_wizard)d" string="Open Wizard" class="oe_edit_only" type="action"/-->
                         </tree>
                     </xpath>
                 </data>
             </field>
         </record>
-        <record model="ir.ui.view" id="sale_order_line_wizard_form">
+        <!--record model="ir.ui.view" id="sale_order_line_wizard_form">
             <field name="name">sale.order.line.wizard.form</field>
             <field name="model">sale.order.line.wizard</field>
             <field name="type">form</field>
@@ -63,9 +62,9 @@
                         <group> 
                             <field name="sale_id"/>
                         </group>
-                        <!--group col="4" colspan="4">
+                        <group col="4" colspan="4">
                             <field name="subtask_ids"/>
-                        </group-->
+                        </group>
                     </sheet>
                     <footer>
                         <button name="added" type="object" string="Agregar tareas" class="oe_highlight"/>
@@ -74,6 +73,6 @@
                     </footer>
                 </form>
             </field>
-        </record>
+        </record-->
     </data>
 </odoo>
