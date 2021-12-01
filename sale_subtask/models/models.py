@@ -76,10 +76,7 @@ class SaleOrderSubTask(models.Model):
             if product_type == 'service':
                 line_ids = self.env["sale.order.line.subtask"].sudo().search([("line_id","=",line.id)])
                 parent_task = self.env["project.task"].sudo().search([("sale_line_id","=",line.id)])
-                _logger.info('*******************************')
-                _logger.info(line_ids)
-                _logger.info(parent_task)
-                if line_ids and parent_task:
+                if line_ids:
                     for subtask in line_ids:
                         #self.env["project.task"].create({"name":subtask.name,
                         #                                "parent_id":parent_task.id,
@@ -87,11 +84,13 @@ class SaleOrderSubTask(models.Model):
                         #                                "stage_id":'1',
                         #                                "kanban_state":	'normal',
                         #                                "company_id":self.company_id.id})
-                        #values = {"name":subtask.name,
-                        #            "parent_id":parent_task.id,
-                        #            "project_id":parent_task.project_id.id,
-                        #            "stage_id":'1',
-                        #            "kanban_state":'normal',
-                        #            "company_id":self.company_id.id}
-                        #parent_task.write({'child_ids': [(0, 0, values)]})
+                        values = {
+                                "name":subtask.name,
+                                "parent_id":parent_task.id,
+                                "project_id":parent_task.project_id.id,
+                                "stage_id":'1',
+                                "kanban_state":'normal',
+                                "company_id":self.company_id.id,
+                                }
+                        parent_task.write({'child_ids': [(0, 0, values)]})
                         subtask.write({'state': '1'})
